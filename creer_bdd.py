@@ -1,5 +1,4 @@
 import sqlite3
-<<<<<<< HEAD
 
 connexion = sqlite3.connect('bdd.db')
 curseur = connexion.cursor()
@@ -31,9 +30,6 @@ curseur.execute('''CREATE TABLE Type_ordinateur
 ''')
 
 
-=======
-connexion = sqlite3.connect("base_de_donnee.db")
-curseur= connexion.cursor()
 
 curseur.execute (''' CREATE TABLE Carnet_de_pret
 (
@@ -57,6 +53,5 @@ curseur.execute (''' CREATE TABLE ticket
         ticket(reference_pc)
 )
 ''')
->>>>>>> loic
 connexion.commit()
 connexion.close()
