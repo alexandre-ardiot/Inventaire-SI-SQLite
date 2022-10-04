@@ -129,4 +129,4 @@ dmypy.json
 .pyre/
 
 #BDD
-bdd.py
+bdd.db
