@@ -40,7 +40,7 @@ curseur.execute (''' CREATE TABLE Carnet_de_pret
         type_ordinateur (id)
 )
 ''')
-connexion.commit()
+
 
 
 curseur.execute (''' CREATE TABLE ticket
