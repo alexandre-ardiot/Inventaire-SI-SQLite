@@ -1,0 +1,34 @@
+import sqlite3
+
+connexion = sqlite3.connect('bdd.db')
+curseur = connexion.cursor()
+
+curseur.execute('''CREATE TABLE chat_tickets
+                (
+                    date TEXT,
+                    id_ticket INTEGER,
+                    auteur TEXT,
+                    message TEXT,
+                    FOREIGN KEY (id_ticket)
+                        REFERENCES Ticket(id)
+                        ON DELETE CASCADE,
+                    FOREIGN KEY (auteur)
+                        REFERENCES User(id)
+                        ON DELETE CASCADE
+                )
+''')
+
+curseur.execute('''CREATE TABLE Type_ordinateur
+                (
+                    id INTEGER PRIMARY KEY,
+                    marque TEXT,
+                    processeur TEXT,
+                    carte_graphique TEXT,
+                    ram TEXT,
+                    disque TEXT
+                )
+''')
+
+
+connexion.commit()
+connexion.close()
