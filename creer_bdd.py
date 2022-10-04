@@ -25,3 +25,4 @@ curseur.execute (''' CREATE TABLE ticket
 )
 ''')
 connexion.commit()
+connexion.close()
