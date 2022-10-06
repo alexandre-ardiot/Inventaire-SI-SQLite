@@ -57,6 +57,10 @@ def retirer_pc (reference_pc) :
 def creer_rapport_bug ( date , id_ticket , id_user , message) :
     """
     Fonction qui permet de créer un rapport de bug
+    :param date : date de la création du rapport de bug
+    :param id_ticket : identifiant du ticket
+    :param id_user : identifiant de l'utilisateur
+    :param message : message de l'utilisateur pour le bug
     """
 
     connexion = sqlite3.connect('bdd.db')
