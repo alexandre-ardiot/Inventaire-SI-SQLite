@@ -19,12 +19,20 @@ def ajouter_un_ordinateur (id_user , type_ordinateur_id) :
     
     reference_pc = input ( " Entrez la référence de l'ordinateur que vous voulez ajouter : " )
 
-    crud.ajouter_pc ()
+    crud.ajouter_pc (id_user , type_ordinateur_id)
+
 
 def retirer_un_ordinateur () :
     """ Fonction qui permet de retirer un ordinateur """
 
     reference_pc = input ( " Entrez la référence de l'ordinateur que vous voulez retirer : ")
 
-    crud.retirer_pc ()
+    crud.retirer_pc (reference_pc)
 
+
+def creer_rapport_bug () :
+    """ Fonction qui permet de créer un rapport de bug"""
+
+    message = input ( " Veuillez taper votre rapport de bug : ")
+
+    crud.creer_rapport_bug (message)

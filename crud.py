@@ -1,19 +1,39 @@
 import sqlite3
+import hashlib
 
-def creation_utilisateur(prenom:str, nom:str, mdp:str) -> None:
+def creation_utilisateur(email:str, prenom:str, nom:str, mdp:str) -> None:
     """Creer un utilisateur dans la table User
     :param prenom: Prénom de l'utilisateur
     :param nom: Nom de l'utilisateur
     :param mdp: Mot de passe de l'utilisateur
+    :param email : e-mail de l'utilisateur
     """
 
     connexion = sqlite3.connect('bdd.db')
     curseur = connexion.cursor()
 
-    curseur.execute("INSERT INTO User VALUES (?, ?, ?, ?, ?)", (None, 0, prenom, nom, mdp))
+    mdp += email
+    mdp_chiffre = hashlib.sha256(mdp.encode()).hexdigest()
+    curseur.execute("INSERT INTO User VALUES (?, ?, ?, ?, ?)", (None, 0, prenom, nom, mdp_chiffre))
 
     connexion.commit()
     connexion.close()
+
+def vérifier_utilisateur(email, mdp):
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+    
+    mdp += email
+    mdp_chiffre = hashlib.sha256(mdp.encode()).hexdigest()
+    
+    curseur.execute('''
+                    SELECT * FROM utilisateur
+                        WHERE email = ? AND mdp = ?
+                    ''', (email, mdp_chiffre))
+    
+    reponse = curseur.fetchone()
+    connexion.close()
+    return reponse
 
 # Espace utilisateur
 
