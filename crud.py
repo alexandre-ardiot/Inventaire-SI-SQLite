@@ -68,8 +68,8 @@ def retirer_pc (reference_pc) :
 
     curseur.execute ( ''' 
                     DELETE FROM Carnet_pret
-                    WHERE reference_pc = 0
-                    ''')
+                    WHERE reference_pc = ?
+                    ''',(reference_pc,))
 
     connexion.commit()
     connexion.close()
