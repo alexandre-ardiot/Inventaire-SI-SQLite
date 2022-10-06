@@ -54,15 +54,17 @@ def retirer_pc (reference_pc) :
     connexion.commit()
     connexion.close()
 
-def creer_rapport_bug () :
+def creer_rapport_bug ( date , id_ticket , id_user , message) :
     """
-    fonction qui permet de créer un rapport de bug
+    Fonction qui permet de créer un rapport de bug
     """
 
     connexion = sqlite3.connect('bdd.db')
     curseur = connexion.cursor()
 
     curseur.execute ('''
-                    
-                    ''')
+                    INSERTE INTO chat_tickets VALUES (?, ?, ?, ?)
+                    ''',(date , id_ticket , id_user , message))
 
+    connexion.commit()
+    connexion.close()

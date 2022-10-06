@@ -13,11 +13,18 @@ def creer_compte() -> None:
 
 # Espace utilisateur
 
-def ajouter_pc() -> None :
-    """Fonction qui permet d'ajouter un ordinateur"""
+def ajouter_un_ordinateur (id_user , type_ordinateur_id) :
+    """ Fonction qui permet d'ajouter un ordinateur """
 
-    connexion = sqlite3.connect('bdd.db')
-    curseur = connexion.cursor()
     
-    ordinateur_a_ajouter = input ( "Quel ordinateur voulez-vous ajouter : " )
-    
+    reference_pc = input ( " Entrez la référence de l'ordinateur que vous voulez ajouter : " )
+
+    crud.ajouter_pc ()
+
+def retirer_un_ordinateur () :
+    """ Fonction qui permet de retirer un ordinateur """
+
+    reference_pc = input ( " Entrez la référence de l'ordinateur que vous voulez retirer : ")
+
+    crud.retirer_pc ()
+
