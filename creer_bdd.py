@@ -7,6 +7,7 @@ curseur = connexion.cursor()
 curseur.execute('''CREATE TABLE User
                 (
                     id INTEGER PRIMARY KEY,
+                    email TEXT UNIQUE,
                     role INTEGER,
                     prenom TEXT,
                     nom TEXT,
@@ -16,6 +17,7 @@ curseur.execute('''CREATE TABLE User
 
 curseur.execute('''CREATE TABLE chat_tickets
                 (
+                    id INTEGER PRIMARY KEY
                     date TEXT,
                     id_ticket INTEGER,
                     auteur TEXT,

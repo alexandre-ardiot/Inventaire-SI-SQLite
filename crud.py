@@ -92,3 +92,25 @@ def creer_un_message ( date , id_ticket , id_user , message) :
 
     connexion.commit()
     connexion.close()
+
+# Message sous ticket
+
+def creer_ticket_message (id_chat_ticket , date , id_ticket , id_user , message):
+    """
+    Fonction qui permet à l'utilisateur et l'administrateur de discuter
+    :param date : date du ticket
+    :param id_chat_ticket : identifiant du ticket de chat
+    :param id_ticket : identifiant du ticket
+    :param id_user : identifiant de l'utilisateur
+    :param message : message entre l'utilisateur et l'administrateur
+    """
+    connexion = sqlite3.connect('bdd.db')
+    curseur = connexion.cursor()
+
+
+    curseur.execute ('''
+                    INSERTE INTO chat_tickets VALUES (?, ?, ?, ?)
+                    ''',(id_chat_ticket ,date , id_ticket , id_user , message))
+
+    connexion.commit()
+    connexion.close()
