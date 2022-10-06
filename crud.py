@@ -14,3 +14,55 @@ def creation_utilisateur(prenom:str, nom:str, mdp:str) -> None:
 
     connexion.commit()
     connexion.close()
+
+# Espace utilisateur
+
+def ajouter_pc (reference_pc , id_user, type_ordinateur_id ) :
+    """
+    Fonction qui permet d'ajouter un ordinateur et ses informations dans la table Carnet_pret
+    :parm reference_pc : référence de l'ordinateur
+    :param id_user : identifiant de l'utilisateur
+    :param type_ordinateur_id : idenfiant du type d'ordinateur
+    """
+    
+    connexion = sqlite3.connect('bdd.db')
+    curseur = connexion.cursor()
+
+    curseur.execute ('''
+                    INSERT INTO Carnet_pret VALUES (? , ? , ?)
+
+                    ''', (reference_pc , id_user, type_ordinateur_id))
+    
+
+    connexion.commit()
+    connexion.close()
+
+def retirer_pc (reference_pc) : 
+    """
+    Fonction qui permet de retirer un ordinateur et ses informations dans la table Carnet_pret
+    :parm reference_pc : référence de l'ordinateur
+    """
+
+    connexion = sqlite3.connect('bdd.db')
+    curseur = connexion.cursor()
+
+    curseur.execute ( ''' 
+                    DELETE FROM Carnet_pret
+                    WHERE reference_pc = 0
+                    ''')
+
+    connexion.commit()
+    connexion.close()
+
+def creer_rapport_bug () :
+    """
+    fonction qui permet de créer un rapport de bug
+    """
+
+    connexion = sqlite3.connect('bdd.db')
+    curseur = connexion.cursor()
+
+    curseur.execute ('''
+                    
+                    ''')
+
