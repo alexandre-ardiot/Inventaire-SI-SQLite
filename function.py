@@ -1,3 +1,4 @@
+from email import message
 import sqlite3
 import crud
 
@@ -31,8 +32,17 @@ def retirer_un_ordinateur () :
 
 
 def creer_rapport_bug () :
-    """ Fonction qui permet de créer un rapport de bug"""
+    """ Fonction qui permet de créer un rapport de bug """
 
     message = input ( " Veuillez taper votre rapport de bug : ")
 
     crud.creer_rapport_bug (message)
+
+# Message sous ticket
+
+def echanger_message () :
+    """ Fonction qui permet à l'utilisateur et l'administrateur d'échanger des messages """
+
+    message = input ( " Veuillez écrire votre message : ")
+
+    crud.creer_ticket_message()
