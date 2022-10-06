@@ -74,7 +74,7 @@ def retirer_pc (reference_pc) :
     connexion.commit()
     connexion.close()
 
-def creer_rapport_bug ( date , id_ticket , id_user , message) :
+def creer_un_message ( date , id_ticket , id_user , message) :
     """
     Fonction qui permet de créer un rapport de bug
     :param date : date de la création du rapport de bug
@@ -87,7 +87,7 @@ def creer_rapport_bug ( date , id_ticket , id_user , message) :
     curseur = connexion.cursor()
 
     curseur.execute ('''
-                    INSERTE INTO chat_tickets VALUES (?, ?, ?, ?)
+                    INSERTE INTO Tickets VALUES (?, ?, ?, ?)
                     ''',(date , id_ticket , id_user , message))
 
     connexion.commit()
