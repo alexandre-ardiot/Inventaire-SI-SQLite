@@ -17,7 +17,7 @@ curseur.execute('''CREATE TABLE User
 
 curseur.execute('''CREATE TABLE chat_tickets
                 (
-                    id INTEGER PRIMARY KEY
+                    id INTEGER PRIMARY KEY,
                     date TEXT,
                     id_ticket INTEGER,
                     auteur TEXT,
