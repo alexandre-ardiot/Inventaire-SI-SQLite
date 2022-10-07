@@ -11,6 +11,14 @@ def creer_compte() -> None:
 
     crud.creation_utilisateur(prenom, nom, mdp)
 
+def se_connecter () :
+    """ Fonction qui permet de s'identifier """
+
+    email = input ( " Quelle est votre e_mail : ")
+    mdp = input ( " Quel est votre mot de passe : ")
+
+    crud.vérifier_utilisateur (email , mdp )
+
 
 # Espace utilisateur
 
