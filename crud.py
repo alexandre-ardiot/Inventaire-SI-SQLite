@@ -96,7 +96,7 @@ def retirer_pc (reference_pc) :
     connexion.commit()
     connexion.close()
 
-def creer_un_message ( date , id_ticket , id_user , message) :
+def creer_un_message ( id_ticket , id_user , message) :
     """
     Fonction qui permet de créer un rapport de bug dans la table Ticket
     :param date : date de la création du rapport de bug
@@ -110,14 +110,14 @@ def creer_un_message ( date , id_ticket , id_user , message) :
 
     curseur.execute ('''
                     INSERTE INTO Tickets VALUES (?, ?, ?, ?)
-                    ''',(date , id_ticket , id_user , message))
+                    ''',(datetime.today().strftime('%Y-%m-%d') , id_ticket , id_user , message))
 
     connexion.commit()
     connexion.close()
 
 # Message sous ticket
 
-def creer_ticket_message (id_chat_ticket , date , id_ticket , id_user , message):
+def creer_ticket_message (id_chat_ticket , id_ticket , id_user , message):
     """
     Fonction qui permet à l'utilisateur et l'administrateur de discuter
     :param date : date du ticket
@@ -132,7 +132,7 @@ def creer_ticket_message (id_chat_ticket , date , id_ticket , id_user , message)
 
     curseur.execute ('''
                     INSERTE INTO chat_tickets VALUES (?, ?, ?, ?)
-                    ''',(id_chat_ticket ,date , id_ticket , id_user , message))
+                    ''',(id_chat_ticket , datetime.today().strftime('%Y-%m-%d') , id_ticket , id_user , message))
 
     connexion.commit()
     connexion.close()
