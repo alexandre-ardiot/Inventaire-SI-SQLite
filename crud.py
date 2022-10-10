@@ -1,14 +1,17 @@
 import sqlite3
 import hashlib
 from datetime import datetime
+from typing import Any
+from xmlrpc.client import Boolean
 
 def creation_utilisateur(email:str, prenom:str, nom:str, mdp:str) -> None:
     """Creer un utilisateur dans la table User
+    :param email : e-mail de l'utilisateur
     :param prenom: Prénom de l'utilisateur
     :param nom: Nom de l'utilisateur
     :param mdp: Mot de passe de l'utilisateur
-    :param email : e-mail de l'utilisateur
     """
+
     connexion = sqlite3.connect('bdd.db')
     curseur = connexion.cursor()
 
@@ -19,14 +22,15 @@ def creation_utilisateur(email:str, prenom:str, nom:str, mdp:str) -> None:
     connexion.commit()
     connexion.close()
 
-def creer_type_pc ( marque, processeur, carte_graphique, ram, disque ):
+def creer_type_pc (marque:str, processeur:str, carte_graphique:str, ram:str, disque:str) -> None:
     """ Fonction qui permet de créer un pc dans la table Type_ordinateur
-    :parm marque : Marque de l'ordinateur
+    :param marque : Marque de l'ordinateur
     :param processeur : Processeur de lordinateur
     :param carte_graphique : Carte graphique de l'ordinateur
     :param ram : Ram de l'ordinateur
     :param disque : Disque de l'ordinateur
     """
+
     connexion = sqlite3.connect('bdd.db')
     curseur = connexion.cursor()
 
@@ -36,7 +40,7 @@ def creer_type_pc ( marque, processeur, carte_graphique, ram, disque ):
     connexion.close()
 
 
-def vérifier_utilisateur(email, mdp):
+def verifier_utilisateur(email:str, mdp:str) -> str:
     """ Fonction qui vérifie l'email et le mot de passe de l'utilsateur
     :param email: Email de l'utilisateur
     :param mdp: Mot de passe du compte de l'utilisateur
@@ -49,8 +53,8 @@ def vérifier_utilisateur(email, mdp):
     mdp_chiffre = hashlib.sha256(mdp.encode()).hexdigest()
     
     curseur.execute('''
-                    SELECT * FROM utilisateur
-                        WHERE email = ? AND mdp = ?
+                    SELECT * FROM User
+                        WHERE email = ? AND mot_de_passe = ?
                     ''', (email, mdp_chiffre))
     
     reponse = curseur.fetchone()
@@ -59,7 +63,7 @@ def vérifier_utilisateur(email, mdp):
 
 # Espace utilisateur
 
-def ajouter_pc (reference_pc , id_user, type_ordinateur_id ) :
+def ajouter_pc (reference_pc:str, id_user:int, type_ordinateur_id:int) -> None:
     """
     Fonction qui permet d'ajouter un ordinateur et ses informations dans la table Carnet_pret
     :parm reference_pc : référence de l'ordinateur
@@ -79,7 +83,7 @@ def ajouter_pc (reference_pc , id_user, type_ordinateur_id ) :
     connexion.commit()
     connexion.close()
 
-def retirer_pc (reference_pc) : 
+def retirer_pc (reference_pc:str) -> None: 
     """
     Fonction qui permet de retirer un ordinateur et ses informations dans la table Carnet_pret
     :parm reference_pc : référence de l'ordinateur
@@ -96,32 +100,29 @@ def retirer_pc (reference_pc) :
     connexion.commit()
     connexion.close()
 
-def creer_un_message ( id_ticket , id_user , message) :
+def creer_un_message (id_ref_pret:int, status:str, message:str) -> None:
     """
-    Fonction qui permet de créer un rapport de bug dans la table Ticket
-    :param date : date de la création du rapport de bug
-    :param id_ticket : identifiant du ticket
-    :param id_user : identifiant de l'utilisateur
-    :param message : message de l'utilisateur pour le bug
+    Fonction qui permet de créer un rapport dans la table Ticket
+    :param id_ref_pret : identifiant du ticket
+    :param status : status du message
+    :param message : message de l'utilisateur pour le ticket
     """
 
     connexion = sqlite3.connect('bdd.db')
     curseur = connexion.cursor()
 
     curseur.execute ('''
-                    INSERTE INTO Tickets VALUES (?, ?, ?, ?)
-                    ''',(datetime.today().strftime('%Y-%m-%d') , id_ticket , id_user , message))
+                    INSERT INTO Ticket VALUES (?, ?, ?, ?, ?)
+                    ''',(None, datetime.today().strftime('%Y-%m-%d'), id_ref_pret, status, message))
 
     connexion.commit()
     connexion.close()
 
 # Message sous ticket
 
-def creer_ticket_message (id_chat_ticket , id_ticket , id_user , message):
+def creer_ticket_message (id_ticket:int, id_user:int, message:str) -> None:
     """
     Fonction qui permet à l'utilisateur et l'administrateur de discuter
-    :param date : date du ticket
-    :param id_chat_ticket : identifiant du ticket de chat
     :param id_ticket : identifiant du ticket
     :param id_user : identifiant de l'utilisateur
     :param message : message entre l'utilisateur et l'administrateur
@@ -131,33 +132,33 @@ def creer_ticket_message (id_chat_ticket , id_ticket , id_user , message):
 
 
     curseur.execute ('''
-                    INSERTE INTO chat_tickets VALUES (?, ?, ?, ?)
-                    ''',(id_chat_ticket , datetime.today().strftime('%Y-%m-%d') , id_ticket , id_user , message))
+                    INSERT INTO chat_tickets VALUES (?, ?, ?, ?, ?)
+                    ''',(None , datetime.today().strftime('%Y-%m-%d') , id_ticket , id_user , message))
 
     connexion.commit()
     connexion.close()
 
 
 
-def nombre_pc_preter ():
+def nombre_pc_prete () -> int:
     """ Fonction qui permet de connaitre le nombre d'ordinateur en prêt """
 
     connexion = sqlite3.connect('bdd.db')
     curseur = connexion.cursor()
 
-    curseur.execute (''' SELECT COUNT (*) FROM Carnet_pret ''')
+    curseur.execute ('''SELECT COUNT (*) FROM Carnet_pret''')
 
     resultat = curseur.fetchone()
     connexion.close()
     return resultat
 
-def nombre_de_panne () :
+def nombre_de_panne () -> int:
     """ Fonction qui permet de connaitre le nombre d'ordinateur en panne """
 
     connexion = sqlite3.connect('bdd.db')
     curseur = connexion.cursor()
 
-    curseur.execute ( ''' SELECT COUNT (*) FROM Ticket''')
+    curseur.execute ('''SELECT COUNT (*) FROM Ticket''')
 
     resultat = curseur.fetchone()
     connexion.close()
