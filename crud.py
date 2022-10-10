@@ -19,7 +19,7 @@ def cree_admin ( nom, prenom, mdp):
     connexion = sqlite3.connect ('bdd,db')
     curseur =  connexion.cursor()
     
-    curseur.execute ("INSERT INTO utilisateur VALUES,(?,?,?)",(nom, prenom, mdp))
+    curseur.execute ("INSERT INTO utilisateur VALUES,(?, ?, ?, ?, ?)", (None , 1 , nom, prenom, mdp))
 
     connexion.commit()
     connexion.close()
@@ -55,46 +55,6 @@ def cree_carnet_pret (reference_pc,user_id,type_ordinateur_id):
     connexion.commit()
     connexion.close()
     
-
-
-def nb_pret_ordinateur(reference_pc,user_id,type_ordinateur_id):
-    connexion = sqlite3.connect ('bdd,db')
-    curseur =  connexion.cursor()
-
-    curseur.execute ('''
-
-                    SELECT COUNT(*) id_ref_pret 
-                    FROM Ticket(id,date_creation,id_ref_pret,status,message)
-                    INNER JOIN
-                    ON
-                    INNER JOIN
-                    ON type_ordinateur
-
-                    ''')
-
-    for ligne in curseur.fetchall()
-    print (ligne)
-    
-   
-
-
-
-def nb_panne_ordinateur(reference_pc,user_id,type_ordinateur_id):
-    connexion = sqlite3.connect ('bdd,db')
-    curseur =  connexion.cursor()
-    
-    
-    curseur.execute('''
-
-                     SELECT COUNT(*) id 
-                     FROM Type_ordinateur(id,marque,processeur,carte_graphique,ram,disque
-                     INNER JOIN
-                     ON
-                     INNER JOIN
-                     ON type_ordinateur
-
-                   ''')
-
     for ligne in curseur.fetchall()
     print (ligne)
     

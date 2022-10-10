@@ -6,7 +6,7 @@ connexion = sqlite3.connect('bdd.db')
 curseur = connexion.cursor()
 
 
-
+"""
 choix_initial = input("Que voulez-vous faire :\n1 - Creer un compte \n2 - Se connecter\n\n")
 
 
@@ -23,3 +23,5 @@ else:
 
 connexion.commit()
 connexion.close()
+"""
+crud.creation_utilisateur("jr" , "nom" , "abc")
