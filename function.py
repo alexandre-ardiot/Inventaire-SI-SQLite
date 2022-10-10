@@ -33,7 +33,13 @@ def se_connecter() -> str:
     email = input ( "Quelle est votre e_mail : ")
     mdp = input ( "Quel est votre mot de passe : ")
 
-    crud.verifier_utilisateur(email, mdp )
+    user = crud.verifier_utilisateur(email, mdp )
+
+    if user == None:
+        return False
+
+    else:
+        return True
 
 
 # Espace utilisateur
@@ -73,7 +79,7 @@ def echanger_message (id_user) :
 
 def afficher_accueil_utilisateur(id_user):
     """Renvoi les tickets de l'utilisateur, avec un délai de 1,5 seconde entre chaque ticket"""
-    
+
     liste_tickets = crud.obtenir_tickets_utilisateur(id_user)
 
     for ticket in liste_tickets:
@@ -82,3 +88,9 @@ def afficher_accueil_utilisateur(id_user):
         print(ticket)
         print("---------")
         sleep(1.5)
+
+def afficher_erreur():
+    os.system("clear")
+    print("Une erreur est survenue, veuillez reessayer")
+    sleep(1.5)
+    os.system("clear")
