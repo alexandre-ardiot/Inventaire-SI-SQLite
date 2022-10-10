@@ -163,3 +163,22 @@ def nombre_de_panne () -> int:
     resultat = curseur.fetchone()
     connexion.close()
     return resultat
+
+def obtenir_tickets_utilisateur(id_user:int) -> tuple:
+    """Renvoi les tickets de l'utilisateur"""
+
+
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+
+    curseur.execute('''
+                    SELECT * FROM ticket
+                    INNER JOIN carnet_pret
+                        ON carnet_pret.reference = ticket.ref_pret
+                        WHERE carnet_pret.utilisateur_id = ?
+                    ''', (id_user,))
+
+    resultat = curseur.fetchall()
+    connexion.close()
+
+    return resultat
