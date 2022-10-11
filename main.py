@@ -1,4 +1,5 @@
 import sqlite3
+from time import sleep
 import crud
 import function
 import os
@@ -16,24 +17,78 @@ while not quitter:
 
         if utilisateur != None:
             if utilisateur[2] == 1:
+
                 #Admin
                 while True:
-                    pass
+                    reponse = input("Que voulez-vous faire ?\nv -> Consulter les tickets ouverts\ns -> Statistiques\nd -> Se déconnecter\n")
 
-            else:
-                #User
-                while True:
-                    function.afficher_accueil_utilisateur()
-                    reponse = input("Que voulez-vous faire ?\nc -> Creer un nouveau ticket\nv -> Consulter un ticket\nd -> Se déconnecter")
+                    if reponse == "v":
+                        #Tout les tickets
+                        function.afficher_tickets_admin()
+                        sleep(3)
 
-                    if reponse == "c":
-                        #On appelle la fonction de création d'un ticket
-                        pass
-                    elif reponse == "v":
-                        #On appelle la fonction pour lire un ticket
-                        pass
+                    elif reponse == "s":
+                        #Statistiques
+                        function.clear()
+                        prete = crud.nombre_pc_prete()
+                        panne = crud.nombre_de_panne()
+                        print("Il y a actuellement", prete[0], "PC de prếtés et", panne[0], "panne en cours\n")
+                        sleep(3)
+
                     elif reponse == "d":
                         break
+
+                    else:
+                        function.afficher_erreur()
+
+            else:
+
+                #User
+                while True:
+                    function.afficher_accueil_utilisateur(utilisateur[0])
+                    reponse = input("Que voulez-vous faire ?\nt -> Creer un nouveau ticket\nc -> Chat\ng -> Gérer vos PC\nd -> Se déconnecter\n")
+
+                    if reponse == "t":
+                        #Création d'un ticket
+
+                        function.clear()
+
+                        print("Voici vos prêts en cours\n")
+                        pret = function.afficher_pret(utilisateur[0])
+
+                        choix = int(input("\nSur quel matériel avez-vous un problème ? : "))
+                        function.creer_ticket(pret[choix][0])
+
+                    elif reponse == "c":
+                        function.clear()
+                        function.afficher_accueil_utilisateur(utilisateur[0])
+
+                        choix_ticket = int(input("Quel ticket souhaitez-vous ouvrir ? : "))
+                        
+                        function.chat(choix_ticket, utilisateur[3])
+
+                    elif reponse == "g":
+                        #Gestion des PC
+                        function.clear()
+                        gestion = input("1 - Ajouter un ordinateur\n2 - Supprimer un ordinateur\n")
+
+                        if gestion == "1":
+                            #Ajout ordi
+                            function.clear()
+                            function.ajouter_pc(utilisateur[0])
+                            function.ajouter_info_pc()
+
+                        elif gestion == "2":
+                            #Suppresion ordi
+                            function.clear()
+                            function.retirer_pc(utilisateur[0])
+
+                        else:
+                            function.afficher_erreur()
+
+                    elif reponse == "d":
+                        break
+
                     else:
                         function.afficher_erreur()
 
@@ -51,6 +106,6 @@ while not quitter:
         function.afficher_erreur()
 
 
-"""crud.creation_utilisateur("test@test.fr", "Antoine", "Meresse", "abc")
+"""crud.creation_utilisateur("b@b.b", "b", "b", "b")
 
-crud.ajouter_pc ("eefdfjxcw", 3, None)"""
+crud.ajouter_pc ("eee", 4, 1)"""

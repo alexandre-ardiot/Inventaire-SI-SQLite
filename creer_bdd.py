@@ -35,10 +35,10 @@ curseur.execute('''CREATE TABLE Ticket
                 (
                     id INTEGER PRIMARY KEY,
                     date_creation TEXT,
-                    id_ref_pret INTEGER,
+                    ref_pret TEXT,
                     status INTEGER,
                     message TEXT,
-                    FOREIGN KEY (id_ref_pret)
+                    FOREIGN KEY (ref_pret)
                         REFERENCES Carnet_pret(reference_pc)
                         ON DELETE CASCADE
                 )
