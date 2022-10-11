@@ -190,7 +190,7 @@ def voir_ticket_en_cours(status) :
     curseur = connexion.cursor()
 
     curseur.execute(''' 
-                    SELECT status FROM Ticket
+                    SELECT * FROM Ticket
                     WHERE status IN ( 1 )
                     ''')
 
