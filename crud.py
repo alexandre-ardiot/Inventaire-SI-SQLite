@@ -182,3 +182,19 @@ def obtenir_tickets_utilisateur(id_user:int) -> tuple:
     connexion.close()
 
     return resultat
+
+def voir_ticket_en_cours(status) :
+    """ Fonction qui permet de consulter le status des tickets en cours (1)"""
+
+    connexion = sqlite3.connect("bdd.db")
+    curseur = connexion.cursor()
+
+    curseur.execute(''' 
+                    SELECT status FROM Ticket
+                    WHERE status IN ( 1 )
+                    ''')
+
+    resultat = curseur.fetchall()
+    connexion.close()
+
+    return resultat
