@@ -1,8 +1,12 @@
-import sqlite3
-from time import sleep
 import crud
 import function
+
 import os
+
+from time import sleep
+
+#crud.creation_administrateur("a@a.a", "a", "a", "a")
+
 
 quitter = False
 
@@ -20,12 +24,22 @@ while not quitter:
 
                 #Admin
                 while True:
-                    reponse = input("Que voulez-vous faire ?\nv -> Consulter les tickets ouverts\ns -> Statistiques\nd -> Se déconnecter\n")
+                    reponse = input("Que voulez-vous faire ?\nv -> Consulter les tickets ouverts\nc -> Chat\ns -> Statistiques\nd -> Se déconnecter\n")
 
                     if reponse == "v":
                         #Tout les tickets
                         function.afficher_tickets_admin()
                         sleep(3)
+
+                    elif reponse == "c":
+                        #Chat
+                        function.clear()
+                        function.afficher_tickets_admin()
+
+                        choix_ticket = int(input("Quel ticket souhaitez-vous ouvrir ? : "))
+                        
+                        function.chat(choix_ticket, utilisateur[3])
+                        function.clear()
 
                     elif reponse == "s":
                         #Statistiques
@@ -45,7 +59,7 @@ while not quitter:
 
                 #User
                 while True:
-                    function.afficher_accueil_utilisateur(utilisateur[0])
+                    function.afficher_ticket_utilisateur(utilisateur[0])
                     reponse = input("Que voulez-vous faire ?\nt -> Creer un nouveau ticket\nc -> Chat\ng -> Gérer vos PC\nd -> Se déconnecter\n")
 
                     if reponse == "t":
@@ -57,15 +71,18 @@ while not quitter:
                         pret = function.afficher_pret(utilisateur[0])
 
                         choix = int(input("\nSur quel matériel avez-vous un problème ? : "))
+                        
                         function.creer_ticket(pret[choix][0])
 
                     elif reponse == "c":
+                        #Chat
                         function.clear()
-                        function.afficher_accueil_utilisateur(utilisateur[0])
+                        function.afficher_ticket_utilisateur(utilisateur[0])
 
                         choix_ticket = int(input("Quel ticket souhaitez-vous ouvrir ? : "))
                         
                         function.chat(choix_ticket, utilisateur[3])
+                        function.clear()
 
                     elif reponse == "g":
                         #Gestion des PC
@@ -104,8 +121,3 @@ while not quitter:
         
     else:
         function.afficher_erreur()
-
-
-"""crud.creation_utilisateur("b@b.b", "b", "b", "b")
-
-crud.ajouter_pc ("eee", 4, 1)"""
