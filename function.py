@@ -1,9 +1,9 @@
-import sqlite3
 import crud
 import os
 
 from time import sleep
-from email import message
+
+#Création de compte et connexion
 
 def creer_compte() -> None:
     """Demande le prénom, nom et mot de passe du compte a creer puis le crée"""
@@ -15,18 +15,7 @@ def creer_compte() -> None:
 
     crud.creation_utilisateur(email, prenom, nom, mdp)
 
-def creer_type_pc() -> None:
-    """ Fonction qui permet d'ajouter des ordinateur dans la base de donnée type_ordinateur"""
-    
-    marque = input(" Entrez la marque de l'ordinateur : ")
-    processeur = input (" Entrez le processeur de l'ordinateur : " )
-    carte_graphique = input (" Entrez la carte graphique de l'ordinateur : " )
-    ram = input (" Entrez la ram de l'ordinateur : " )
-    disque = input (" Entrez le disque de l'ordinateur : " )
-
-    crud.creer_type_pc(marque, processeur, carte_graphique, ram, disque)
-
-def se_connecter() -> str:
+def se_connecter() -> tuple:
     """ Fonction qui permet de s'identifier """
 
     email = input ( "Quelle est votre e_mail : ")
@@ -36,46 +25,9 @@ def se_connecter() -> str:
 
     return user
 
-# Espace utilisateur
+#Espace Utilisateur
 
-def ajouter_un_ordinateur(id_user) :
-    """Fonction qui permet d'ajouter un ordinateur
-    :param id_user: Identifiant de l'utilisateur
-    """
-
-    reference_pc = input ("Entrez la référence de l'ordinateur que vous voulez ajouter : ")
-    type_ordinateur_id = input ("Quel est votre type d'ordinateur : ")
-
-    crud.ajouter_pc(reference_pc, id_user , type_ordinateur_id)
-
-def retirer_un_ordinateur () :
-    """ Fonction qui permet de retirer un ordinateur """
-
-    reference_pc = input ("Entrez la référence de l'ordinateur que vous voulez retirez : ")
-
-    crud.retirer_pc(reference_pc)
-
-def creer_ticket(ref_pret:str) -> None :
-    """Fonction qui permet de créer un rapport de bug
-    :param ref_pret: Référence de l'ordinateur
-    """
-
-    message = input("Veuillez taper votre rapport de bug : ")
-
-    crud.creer_un_message(ref_pret, 1, message)
-
-# Message sous ticket
-
-def echanger_message (id_user) :
-    """Fonction qui permet à l'utilisateur et l'administrateur d'échanger des messages
-    :param id_user: Identifiant de l'utilisateur
-    """
-
-    message = input ("Veuillez écrire votre message : ")
-
-    crud.creer_ticket_message(None, id_user, message)
-
-def afficher_accueil_utilisateur(id_user):
+def afficher_ticket_utilisateur(id_user:int) -> None:
     """Renvoi les tickets de l'utilisateur
     :param id_user: Identifiant de l'utilisateur
     """
@@ -91,28 +43,19 @@ def afficher_accueil_utilisateur(id_user):
 
     print("\n")
 
-def afficher_tickets_admin():
-    """Renvoi tout les tickets"""
+def creer_ticket(ref_pret:str) -> None :
+    """Fonction qui permet de créer un rapport de bug
+    :param ref_pret: Référence de l'ordinateur
+    """
 
-    liste_tickets = crud.obtenir_tickets_admin()
+    message = input("Veuillez taper votre rapport de bug : ")
 
-    os.system("clear")
-    print("Tickets en cours :\n")
+    crud.creer_un_ticket(ref_pret, 1, message)
 
-    for ticket in liste_tickets:
-        print(ticket)
-        print("---------")
-
-    print("\n")
-
-def afficher_erreur():
-    os.system("clear")
-    print("Une erreur est survenue, veuillez reessayer")
-    sleep(2.5)
-    os.system("clear")
-
-def afficher_pret(user_id:int):
-    "Permet d'afficher les prêts en cours de l'utilisateur"
+def afficher_pret(user_id:int) -> tuple:
+    """Permet d'afficher les prêts en cours de l'utilisateur
+    :param user_id: ID de l'utilisateur
+    """
     
     prets = crud.voir_pret(user_id)
 
@@ -124,10 +67,6 @@ def afficher_pret(user_id:int):
 
     return prets
 
-def clear() -> None:
-    "Nettoie l'écran"
-    os.system("clear")
-
 def ajouter_pc(user_id:int) -> None:
     """Permet d'ajouter un PC à la Carnet_pret
     :param user_id: ID de l'utilisateur en cours
@@ -137,6 +76,17 @@ def ajouter_pc(user_id:int) -> None:
     type_ordinateur_id = int(input("Quelle est votre type d'ordinateur (0 - PC fixe, 1 - PC portable) : "))
 
     crud.ajouter_pc(reference_pc, user_id, type_ordinateur_id)
+
+def ajouter_info_pc() -> None:
+    """Permet de remplir la table Type_ordinateur"""
+
+    marque = input("Quelle est la marque du PC ? : ")
+    processeur = input("Quelle est le processeur du PC ? : ")
+    carte_graphique = input("Quelle est la carte graphique du PC ? : ")
+    ram = int(input("Quelle est la quantitée de RAM du PC ? : "))
+    disque = int(input("Quelle est l'espace disque du PC ? : "))
+
+    crud.ajouter_info_pc(marque, processeur, carte_graphique, ram, disque)
 
 def retirer_pc(user_id:int) -> None:
     """Liste les références de PC de l'utilisateur puis supprime celle choisie par l'utilisateur
@@ -152,16 +102,23 @@ def retirer_pc(user_id:int) -> None:
 
     crud.retirer_pc(choix)
 
-def ajouter_info_pc() -> None:
-    """Permet de remplir la table Type_ordinateur"""
+#Espace Admin
 
-    marque = input("Quelle est la marque du PC ? : ")
-    processeur = input("Quelle est le processeur du PC ? : ")
-    carte_graphique = input("Quelle est la carte graphique du PC ? : ")
-    ram = int(input("Quelle est la quantitée de RAM du PC ? : "))
-    disque = int(input("Quelle est l'espace disque du PC ? : "))
+def afficher_tickets_admin() -> None:
+    """Renvoi tout les tickets"""
 
-    crud.ajouter_info_pc(marque, processeur, carte_graphique, ram, disque)
+    liste_tickets = crud.obtenir_tickets_admin()
+
+    os.system("clear")
+    print("Tickets en cours :\n")
+
+    for ticket in liste_tickets:
+        print(ticket)
+        print("---------")
+
+    print("\n")
+
+#Chat
 
 def chat(ticket_id:int, user:str):
     """Affiche les messages du chat déjà existant et demande à l'utilisateur le message qu'il souhaite y rajouter
@@ -169,10 +126,25 @@ def chat(ticket_id:int, user:str):
     :param user; Prénom de l'utilisateur
     """
 
-    messages = crud.minou_minou(ticket_id)
+    messages = crud.ticket_afficher_chat(ticket_id)
 
     for message in messages:
         print(message[3], " : ", message[4])
 
     nouveau_message = input("Entrez du texte : ")
     crud.message_chat(ticket_id, user, nouveau_message)
+
+#Divers
+
+def clear() -> None:
+    "Nettoie l'écran"
+
+    os.system("clear")
+
+def afficher_erreur() -> None:
+    """Affiche qu'une erreur est survenue durant 2,5 secondes"""
+
+    os.system("clear")
+    print("Une erreur est survenue, veuillez reessayer")
+    sleep(2.5)
+    os.system("clear")
